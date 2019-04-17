@@ -42,13 +42,6 @@ export default {
           opacityHigh: .7,
           opacityLow: .3
         },
-        // {
-        //   background: '6_background_dark.gif',
-        //   textColor: 'white',
-        //   textOutline: '#2c3e50',
-        //   opacityHigh: .9,
-        //   opacityLow: .8
-        // },
         {
           background: '3_background_light.webp',
           textColor: '#2c3e50',
@@ -56,13 +49,13 @@ export default {
           opacityHigh: .7,
           opacityLow: .3
         },
-        // {
-        //   background: '4_background_dark.gif',
-        //   textColor: 'white',
-        //   textOutline: 'transparent',
-        //   opacityHigh: 1,
-        //   opacityLow: .9
-        // }
+        {
+          background: '4_background.gif',
+          textColor: '#2c3e50',
+          textOutline: 'transparent',
+          opacityHigh: .7,
+          opacityLow: .3
+        },
       ],
       scriptsIdx: 0,
       backgroundIdx: 0,

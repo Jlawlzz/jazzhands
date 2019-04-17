@@ -1,7 +1,9 @@
 <template>
   <div class="container" v-on:click="registerClick">
-    <div id="background"></div>
-    <h1>{{ scripts[clicks%scripts.length] }}</h1>
+    <div id="background" v-bind:style="backgroundStyle"></div>
+    <h1 v-bind:style="textStyle">
+      {{ scripts[scriptsIdx%scripts.length] }}
+    </h1>
   </div>
 </template>
 
@@ -32,20 +34,86 @@ export default {
         'just my pain and suffering',
         'ok but seriously all joking aside there is nothing here'
       ],
-      clicks: 0,
+      themes: [
+        {
+          background: '1_background_light.webp',
+          textColor: '#2c3e50',
+          textOutline: 'transparent',
+          opacityHigh: .7,
+          opacityLow: .3
+        },
+        // {
+        //   background: '6_background_dark.gif',
+        //   textColor: 'white',
+        //   textOutline: '#2c3e50',
+        //   opacityHigh: .9,
+        //   opacityLow: .8
+        // },
+        {
+          background: '3_background_light.webp',
+          textColor: '#2c3e50',
+          textOutline: 'transparent',
+          opacityHigh: .7,
+          opacityLow: .3
+        },
+        // {
+        //   background: '4_background_dark.gif',
+        //   textColor: 'white',
+        //   textOutline: 'transparent',
+        //   opacityHigh: 1,
+        //   opacityLow: .9
+        // }
+      ],
+      scriptsIdx: 0,
+      backgroundIdx: 0,
+      isOpaque: true,
+      selectedTheme: null,
+      backgroundStyle: {},
+      textStyle: {}
     }
   },
   mounted () {
-    let isOpaque = true
-
-    setInterval(() => {
-      document.getElementById('background').style.opacity = isOpaque ? .3 : .6
-      isOpaque = !isOpaque
-    }, 5000)
+    this.selectedTheme = this.themes[this.backgroundIdx]
+    this.setDefaultTheme()
+    this.setThemeInterval()
   },
   methods: {
-    registerClick() {
-      this.clicks += 1
+    setDefaultTheme () {
+      this.textStyle = {
+        color: this.selectedTheme.textColor
+      }
+      this.backgroundStyle = {
+        background: `url("${this.selectedTheme.background}")`,
+        opacity: this.selectedTheme.opacityLow
+      }
+    },
+    setThemeInterval () {
+      let that = this
+      setInterval(() => {
+        that.backgroundStyle.opacity = that.isOpaque
+          ? that.selectedTheme.opacityLow
+          : that.selectedTheme.opacityHigh
+        that.isOpaque = !that.isOpaque
+      }, 5000)
+    },
+    registerClick () {
+      this.scriptsIdx += 1
+
+      if (this.scriptsIdx % this.scripts.length == 0) {
+        this.backgroundIdx += 1
+        this.selectedTheme = this.themes[this.backgroundIdx % this.themes.length]
+        this.updateBackground()
+        this.updateText()
+      }
+    },
+    updateBackground () {
+      this.backgroundStyle.transition = 'opacity 0s'
+      this.backgroundStyle.backgroundImage = `url("${this.selectedTheme.background}")`
+      this.backgroundStyle.transition = 'opacity 5s'
+    },
+    updateText () {
+      this.textStyle.color = this.selectedTheme.textColor
+      this.textStyle.backgroundColor = this.selectedTheme.textOutline 
     }
   }
 }
@@ -67,13 +135,18 @@ export default {
   flex-direction: row;
   width: 100vw;
   height: calc(100vh - 60px);
-  background-image: url("/rainblow.webp");
+  /* background-image: url("/rainblow.webp"); */
   transition: opacity 5s;
   opacity: .5;
 }
 h1 {
   font-size: 150px;
   z-index: 1;
+}
+@media only screen and (max-width: 1200px) {
+  h1 {
+    font-size: 100px;
+  }
 }
 @media only screen and (max-width: 400px) {
   h1 {

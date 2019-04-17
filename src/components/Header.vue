@@ -12,6 +12,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped type="text/scss">
+h1 {
+  margin: 0 16px;
+} 
 .container {
   align-items: center;
   position: absolute;
@@ -20,7 +23,6 @@ export default {
   width: 100%;
   height: 60px;
   margin: 0;
-  padding: 0 16px;
   top: 0;
 }
 </style>
